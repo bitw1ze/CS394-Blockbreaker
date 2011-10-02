@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="3"
+    android:background="@drawable/background" >
+    
+    <TableRow>
+      <TextView
+        android:layout_column="1"
+        android:text="High Scores"
+        android:padding="5dip"
+        android:textSize="24.5sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_span="3"
+      />
+    </TableRow>
+    
+    <TableRow>
+      <TextView
+        android:padding="2dip"
+        android:layout_column="1"
+      />
+      <TextView
+        android:layout_column="2"
+        android:text="Name"
+        android:textSize="20sp"
+        android:padding="5dip"
+      />
+      <TextView
+        android:layout_column="3"
+        android:text="Score"
+        android:textSize="20sp"
+        android:padding="8dip"
+      />      
+    </TableRow>
+    
+    <TableRow>
+      <TextView
+        android:width="100px"
+        android:layout_column="1"
+        android:text="1."
+        android:padding="2dip"
+      />
+      <TextView
+        android:width="200px"
+        android:layout_column="1"
+        android:text="Eric"
+        android:padding="5dip"
+      />
+            <TextView
+        android:layout_column="1"
+        android:text="MILLIONS"
+        android:padding="8dip"
+      />
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_column="1"
+        android:text="2."
+        android:padding="2dip"
+      />
+      <TextView
+        android:layout_column="1"
+        android:text="Eric"
+        android:padding="5dip"
+      />
+            <TextView
+        android:layout_column="1"
+        android:text="MILLIONS"
+        android:padding="8dip"
+      />
+    </TableRow>
+
+    <TableRow>
+      <Button
+        android:text="@string/main_menu"
+        android:id="@+id/Button02"
+        android:textSize="18px"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:layout_column="1"
+        android:layout_span="3" >
+      </Button>
+    </TableRow>
+</TableLayout>
+

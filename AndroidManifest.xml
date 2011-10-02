@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      android:versionCode="1"
+      android:versionName="1.0" package="edu.csub.cs.blockbreaker">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name="edu.csub.cs.blockbreaker.Blockbreaker"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".Game"
+                  android:label="@string/arcade_mode"> 			  
+        </activity>
+        <activity android:name=".About"
+                  android:label="@string/about"
+                  android:theme="@android:style/Theme.Dialog"> 			  
+        </activity>
+        <activity android:name=".Scores"
+                  android:label="@string/scores">
+        </activity>
+        <activity android:name=".Help"
+                  android:label="@string/help"
+                  android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity android:name=".GameOver"
+                  android:label="@string/gameover">
+        </activity>
+
+    </application>
+    <uses-sdk android:minSdkVersion="7" />
+</manifest> 
+

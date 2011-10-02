@@ -1,0 +1,25 @@
+img
+{
+	display:inline;
+}
+
+body
+{
+	background-color:gray;
+	color:white;
+}
+
+div
+{
+	margin: 5px 0;
+}
+
+#panel img
+{
+	margin: 0px 2px;
+}
+
+img.selected
+{
+	border: 3px dashed red;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android Blockbreaker</string>
+    
+    <string name="menu">Main Menu Screen</string>
+    <string name="main_menu">Main Menu</string>
+    
+    <string name="arcade_mode">Arcade Mode</string>
+    <string name="endurance_mode">Endurance Mode</string>
+    <string name="exit_game">Exit Game</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="scores">Scores</string>
+    <string name="gameover">Game Over</string>
+    
+    <string name="about_label">About</string>
+    <string name="help_label">How to play</string>
+    
+    <string name="about_text">\
+<b>Android Blockbreaker</b> is another remake of a classic arcade game.
+It was created by four Computer Science undergrads - Gabe Pike, Blake Fischer, 
+Eric England, and Robert Morning - as a final project at Cal State 
+University Bakersfield. It is open source, free to distribute and modify
+as long as credit is given.</string>
+
+	<string name="help_text">\
+The goal is the break all the bricks!\n\
+Control the paddle with your finger and keep the ball from hitting the bottom.\n\
+You only have one chance, so if your ball hits the bottom, you die!</string>
+
+	<string name="gameover_text">You lose! Good day sir.</string>
+	
+</resources>

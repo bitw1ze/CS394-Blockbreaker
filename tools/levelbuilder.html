@@ -1,0 +1,31 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="lb.css" />
+<script type="text/javascript" src="levelbuilder.js"></script>
+</head>
+<body>
+
+<div>
+<form action="" method="get">
+Name: <input type="text" name="name" id="name" value="" /><br />
+Columns: <input type="text" name="cols" value="9" />
+Rows: <input type="text" name="rows" value="14" />
+<input type="button" value="Generate" onclick="init_blocks(rows, cols)") />
+<br />
+Edit mode: 
+Color<input type="radio" name="mode" value="color" onclick="javascript: edit_mode = 0" checked="checked" />
+Opacity<input type="radio" name="mode" value="alpha" onclick="javascript: edit_mode = 1" />
+</form>
+</div>
+
+<div id="panel">
+<script type="text/javascript">
+init_panel();
+</script>
+<input type="button" onclick="reset_blocks(igrid)" value="Reset" />
+<input type="button" onclick="save()" value="Save" />
+</div>
+<div id='level'>
+</div>
+</body>
+</html>

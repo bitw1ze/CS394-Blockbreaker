@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    >
+<TextView  
+    />
+     <Button
+        android:text="@string/main_menu"
+        android:id="@+id/Button02"
+        android:textSize="18px"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:layout_column="1"
+        android:layout_span="3" >
+     </Button>
+</LinearLayout>

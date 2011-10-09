@@ -1,8 +1,8 @@
-package edu.csub.cs.Blockbreaker;
+package edu.csub.cs.blockbreaker;
 
-import android.util.Log;
 import java.util.Vector;
 import java.util.Random;
+import android.util.Log;
 import android.graphics.Bitmap;
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +60,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 	protected boolean instantiated;
 	protected boolean started;
 	public boolean run;
+	protected boolean resettingLevel;
 
 	// load the bitmaps
 	private Bitmap paddleBmp = BitmapFactory.decodeResource(
@@ -109,6 +110,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 		instantiated = false;
 		run = false;
 		started = false;
+		resettingLevel = false;
 		
 		currentLevel = 0;
 		levels = Level.createLevels();
@@ -130,30 +132,10 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 		while (run) {
 			canvas = surfaceHolder.lockCanvas();
 			if (canvas != null) {
-				checkGameStatus();
 				doDraw(canvas);
 				surfaceHolder.unlockCanvasAndPost(canvas);
 			}
 		}
-	}
-	
-	private void checkGameStatus() {
-		if (started && instantiated) {
-			if (Block.count == 0) {
-				resetLevel();
-			}
-			if (Ball.count == 0) {
-				endGame();
-			}
-		}
-	}
-	
-	void endGame() {
-		Log.d("fuck", "shit");
-		killBalls();
-		run = false;
-		game.startActivity(new Intent(game, GameOver.class));
-		game.finish();
 	}
 	
 	// does the actual drawing
@@ -187,6 +169,13 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 			
 			// draw paddle
 			paddle.doDraw(canvas);
+
+			// draw status
+			canvas.drawRect(statusBarRect, statusBarPaint);
+			canvas.drawText("Score: " + Game.score, 10, statusBarHeight, statusTextPaint);
+			
+			if (balls == null)
+				return;
 			
 			// draw balls
 			for (Ball ball : balls) {
@@ -194,21 +183,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 					ball.doDraw(canvas);
 				}
 			}
-
-			// draw status
-			canvas.drawRect(statusBarRect, statusBarPaint);
-			canvas.drawText("Score: " + Game.score, 10, statusBarHeight, statusTextPaint);
-			
-			
 		}
-
-
-	// loads variables from a Level into the GameView object
-	private void loadLevel(Level level) {
-		cols = level.cols;
-		rows = level.rows;
-		totalRows = level.rows;
-	}
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
@@ -237,15 +212,16 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 	// moves the paddle when the player moves their finger
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (System.currentTimeMillis() < (levelEndedTime + LEVEL_GRACE_PERIOD)) {
-			return true;
+		String tag = "GameView.java:onTouchEvent";
+		Log.d(tag, "balls.size()=" + balls.size());
+		Log.d(tag, "started=" + started);
+		if (!resettingLevel) {
+			if (!started) {
+				started = true;
+				new Thread(balls.get(0)).start();
+			}
+			paddle.setCenterX((int)event.getX());
 		}
-		
-		if (!started) {
-			started = true;
-			new Thread(balls.get(0)).start();
-		}
-		paddle.setCenterX((int)event.getX());
 
 		return true;
 	}
@@ -261,14 +237,8 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 		statusBarHeight = Scale.calc(BLOCK_HEIGHT, Scale.STATUSBAR_HEIGHT);
 	}
 
-	// Calls createBlocks and passes the matrix from the level
-	public void createBlocksFromLevel(Level level) {
-		createBlocks(level.blocks);
-	}
-
-
 	// Creates a random integer matrix and calls createBlocks
-	public void createRandomBlocks() {    	
+	public int[][] randomBlocks() {    	
 		int lives_weighted[] = {1, 4, 9};
 		int grid[][] = new int[rows][cols];
 		
@@ -286,7 +256,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 			
 		}
 
-		createBlocks(grid);
+		return grid;
 	}
 
 	/* Creates the blocks based off of an integer matrix
@@ -327,20 +297,28 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 		}	
 	}
 	
-	protected void killBalls() {
-		for (Ball ball : balls) {
-			ball.kill();
-		}
-	}
-	
 	protected void createBalls() {
-		Ball.count = 0;
+		killBalls();
+		
 		ballRect = new Rect(
 				(width/2-BALL_DIAMETER/2), (paddleRect.top-BALL_DIAMETER-1),
 				(width/2+BALL_DIAMETER/2), (paddleRect.top-1) );
 		balls = new Vector<Ball>();
 		balls.add(new Ball(ballRect, this));
 		balls.get(0).ySign = -1;
+	}
+	
+	protected void killBalls() {
+		if (balls == null)
+			return;
+		
+		for (Ball ball : balls) {
+			Log.d("GameView.java", "ball killed: " + ball);
+			ball.running = false;
+		}
+		
+		balls = null;
+		Ball.count = 0;
 	}
 
 	/* builds a new random level or goes to the next built-in level
@@ -349,30 +327,41 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 	 * records the time for the grace period to work */
 	public void resetLevel() {
 
-		paddle.setCenterX(width / 2);
-
-		killBalls();
+		resettingLevel = true;
+		if (Game.mode == Game.ARCADE_MODE && ++currentLevel >= levels.length) {
+			endGame();
+			return;
+		}
 		
-		started = false;
+		int grid[][] = null;
 		
 		if (Game.mode == Game.ENDURANCE_MODE) {
-			createRandomBlocks();
+			grid = randomBlocks();
 		}
 		else if (Game.mode == Game.ARCADE_MODE) {
-			try {
-				currentLevel++;
-				loadLevel(levels[currentLevel]);
-				scaleDimensions();
-				createBlocksFromLevel(levels[currentLevel]);
-			}
-			catch (ArrayIndexOutOfBoundsException e) {
-				endGame();
-			}
+			grid = levels[currentLevel].blocks;
+			loadLevel(levels[currentLevel]);
 		}
 		
+		started = false;
+		paddle.setCenterX(width / 2);
+		createBlocks(grid);
 		createBalls();
-
-		levelEndedTime = System.currentTimeMillis();
+		scaleDimensions();
+		doDraw(canvas);
+		
+		try {
+			Thread.sleep(2000);
+		}
+		catch (Exception e) { e.printStackTrace(); }
+		resettingLevel = false;
+	}
+	
+	void endGame() {
+		run = false;
+		killBalls();
+		game.startActivity(new Intent(game, GameOver.class));
+		game.finish();
 	}
 	
 	public void buildObjects() {
@@ -380,6 +369,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 				(int)(width/2)-PADDLE_WIDTH/2, (int)(height - 2*PADDLE_HEIGHT), 
 				(int)(width/2)+PADDLE_WIDTH/2, (int)(height - 1*PADDLE_HEIGHT));
 		paddle = new Paddle(paddleBmp, paddleRect, null, this);
+		int grid[][] = null;
 		
 		bgRect = new Rect(0, 0, (int)width, (int)height);
 		
@@ -394,15 +384,23 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 		createBalls();
 
 		if (Game.mode == Game.ENDURANCE_MODE) {
-			createRandomBlocks();
+			grid = randomBlocks();
 		}
 		else if (Game.mode == Game.ARCADE_MODE){
-			createBlocksFromLevel(levels[currentLevel]);
+			grid = levels[currentLevel].blocks;
 		}
+		createBlocks(grid);
 		
 		started = false;
 		instantiated = false;
 	}
+	
+	// loads variables from a Level into the GameView object
+		private void loadLevel(Level level) {
+			cols = level.cols;
+			rows = level.rows;
+			totalRows = level.rows;
+		}
 }
 
 // Class that holds constants for scaling dimensions and has method for scaling them

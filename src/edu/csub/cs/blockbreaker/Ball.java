@@ -1,5 +1,6 @@
-package edu.csub.cs.Blockbreaker;
+package edu.csub.cs.blockbreaker;
 
+import android.util.Log;
 import java.util.Random;
 import edu.csub.cs.audio.Assets;
 import android.graphics.Paint;
@@ -53,6 +54,7 @@ public class Ball extends Collidable implements Runnable {
 		
 		generateSpeed();
 		count++;
+		running = true;
 	}
 	
 	@Override
@@ -61,7 +63,7 @@ public class Ball extends Collidable implements Runnable {
 	}
 	
 	public void run() {
-		running = true;
+		
 		while (running) {
 			animate();
 			try {
@@ -69,6 +71,7 @@ public class Ball extends Collidable implements Runnable {
 			}
 			catch (InterruptedException e) {}
 		}
+		
 		alive = false;
 	}
 	
@@ -154,6 +157,9 @@ public class Ball extends Collidable implements Runnable {
 	public void kill() {
 		running = false;
 		count--;
+		if (count == 0) {
+			gameView.endGame();
+		}
 	}
 	
 	// generates a random speed

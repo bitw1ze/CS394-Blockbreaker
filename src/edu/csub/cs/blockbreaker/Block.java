@@ -1,4 +1,4 @@
-package edu.csub.cs.Blockbreaker;
+package edu.csub.cs.blockbreaker;
 
 import java.util.Random;
 
@@ -47,6 +47,10 @@ public class Block extends Collidable {
 		}
 		else {
 			Assets.blockHit.play(1);
+		}
+		
+		if (count <= 0) {
+			gameView.resetLevel();
 		}
 	}
 }

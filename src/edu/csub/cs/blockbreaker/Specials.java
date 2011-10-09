@@ -1,4 +1,4 @@
-package edu.csub.cs.Blockbreaker;
+package edu.csub.cs.blockbreaker;
 
 import java.util.Vector;
 import java.util.Random;

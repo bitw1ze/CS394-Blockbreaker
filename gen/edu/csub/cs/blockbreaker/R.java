@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package edu.csub.cs.Blockbreaker;
+package edu.csub.cs.blockbreaker;
 
 public final class R {
     public static final class anim {

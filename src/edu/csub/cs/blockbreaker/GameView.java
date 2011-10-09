@@ -212,11 +212,8 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 	// moves the paddle when the player moves their finger
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		String tag = "GameView.java:onTouchEvent";
-		Log.d(tag, "balls.size()=" + balls.size());
-		Log.d(tag, "started=" + started);
 		if (!resettingLevel) {
-			if (!started) {
+			if (!started && balls != null) {
 				started = true;
 				new Thread(balls.get(0)).start();
 			}

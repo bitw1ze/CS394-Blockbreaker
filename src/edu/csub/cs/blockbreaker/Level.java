@@ -1,4 +1,4 @@
-package edu.csub.cs.blockbreaker;
+package edu.csub.cs.Blockbreaker;
 
 public class Level {
 	public final int rows;

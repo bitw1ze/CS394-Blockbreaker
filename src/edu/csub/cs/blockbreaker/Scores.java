@@ -1,4 +1,4 @@
-package edu.csub.cs.blockbreaker;
+package edu.csub.cs.Blockbreaker;
 
 import edu.csub.cs.audio.Assets;
 import android.app.Activity;

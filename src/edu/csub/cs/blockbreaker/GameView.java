@@ -179,7 +179,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 			
 			// draw balls
 			for (Ball ball : balls) {
-				if (ball.alive) { 
+				if (ball.running) { 
 					ball.doDraw(canvas);
 				}
 			}

@@ -31,7 +31,7 @@ public class Ball extends Collidable implements Runnable {
 	
 	private boolean impendingDeath;
 	protected boolean running;
-	public boolean alive;
+
 	
 	public Ball (Rect rect, GameView gameView) {
 		super(rect, gameView);
@@ -49,7 +49,7 @@ public class Ball extends Collidable implements Runnable {
 		paint.setColor(COLORS[rand.nextInt(COLORS.length)]);
 		
 		running = false;
-		alive = true;
+
 		impendingDeath = false;
 		
 		generateSpeed();
@@ -72,7 +72,6 @@ public class Ball extends Collidable implements Runnable {
 			catch (InterruptedException e) {}
 		}
 		
-		alive = false;
 	}
 	
 	protected void checkCollision() {

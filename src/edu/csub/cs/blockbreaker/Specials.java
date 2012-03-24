@@ -30,9 +30,9 @@ public class Specials {
 	
 	public static void addBalls(Vector<Ball> balls) {
 		for (int i=0; i<BALLS_INC; i++) {
-			if (Ball.count >= MAX_BALLS) {
+			if (Ball.count >= MAX_BALLS)
 				break;
-			}
+
 			balls.add(new Ball(ball));
 			new Thread(balls.get(balls.size()-1)).start();
 		}

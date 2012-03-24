@@ -1,6 +1,6 @@
 package edu.csub.cs.blockbreaker;
 
-import android.util.Log;
+//import android.util.Log;
 import java.util.Random;
 import edu.csub.cs.audio.Assets;
 import android.graphics.Paint;
@@ -17,6 +17,8 @@ public class Ball extends Collidable implements Runnable {
 	
 	protected static final double ANGLE_MAX = .7d;
 	protected static final double ANGLE_MIN = .07d;
+	protected double x1, x2, y1, y2;
+	protected double xVelocity, yVelocity;
 	
 	// x and y velocity
 	public double xSpeed;
@@ -44,12 +46,16 @@ public class Ball extends Collidable implements Runnable {
 	}
 	
 	protected void set() {
+		x1 = (double)rect.left;
+        x2 = (double)rect.right;
+        y1 = (double)rect.top;
+        y2 = (double)rect.bottom;
+        
 		paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setColor(COLORS[rand.nextInt(COLORS.length)]);
 		
 		running = false;
-
 		impendingDeath = false;
 		
 		generateSpeed();
@@ -126,12 +132,9 @@ public class Ball extends Collidable implements Runnable {
 				if (block.lives > 0 && Rect.intersects(rect, block.rect)) {
 					if (block.lives > 1) {
 						if (checkNextCollision(block))
-						{
 							ySign = -ySign;
-						}
-						else {
+						else
 							xSign = -xSign;
-						}
 					}
 					block.takeDamage(this, damage);
 					break;
@@ -142,7 +145,13 @@ public class Ball extends Collidable implements Runnable {
 	
 	// moves the ball
 	public void animate() {
-		rect.offset((int)xSpeed * xSign, (int)ySpeed * ySign);
+		xVelocity = xSpeed * xSign;
+		yVelocity = ySpeed * ySign;
+		x1 += xVelocity;
+		x2 += xVelocity;
+		y1 += yVelocity;
+		y2 += yVelocity;
+		rect.set((int)x1, (int)y1, (int)x2, (int)y2);
         checkCollision();
     }
 	

@@ -46,15 +46,15 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 	public static int statusBarHeight;
 
 	// used for grace period between levels
-	private static final long LEVEL_GRACE_PERIOD = 1500;
-	private static long levelEndedTime = 0;
+	//private static final long LEVEL_GRACE_PERIOD = 1500;
+	//private static long levelEndedTime = 0;
 
 	// level definitions
 	private static Level[] levels;
 	public static int currentLevel;
 	
 	// frames per second
-	public static final int FPS = 30;
+	public static final int FPS = 60;
 
 	// magic booleans - DO NOT TOUCH
 	protected boolean instantiated;
@@ -405,7 +405,7 @@ class Scale {
 	public static final double PADDLE_WIDTH = .16d;
 	public static final double PADDLE_HEIGHT = .25d;
 	public static final double BALL_DIAMETER = .03d;
-	public static final double BALL_SPEED = .009d;
+	public static final double BALL_SPEED = .0075d;
 	public static final double STATUSBAR_HEIGHT = .5d;
 
 	public static int calc(int m, double n) {

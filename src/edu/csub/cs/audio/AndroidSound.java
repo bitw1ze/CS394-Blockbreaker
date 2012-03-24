@@ -7,6 +7,7 @@ import edu.csub.cs.audio.Sound;
 public class AndroidSound implements Sound {
 	int soundId;
 	SoundPool soundPool;
+	boolean isPlaying;
 	
 	public AndroidSound(SoundPool soundPool, int soundId) {
 		this.soundId = soundId;
@@ -15,6 +16,7 @@ public class AndroidSound implements Sound {
 	
 	@Override
 	public void play(float volume) {
+		isPlaying = true;
 		soundPool.play(soundId, volume, volume, 0, 0, 1);
 	}
 	

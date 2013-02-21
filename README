@@ -1,38 +1,13 @@
 Blockbreaker (another Arkanoid/Breakout clone)
-by Gabe Pike, Brandon Fischer, Eric England, and Robert Morning
+by Gabe Pike, Blake Fischer, Eric England, and Robert Morning
 
-Tasks completed:
-+ 2012/3/23: double-preicision position calculation (i.e. better FPS, more precise col. detection)
-+ 2012/3/23: started working on the project again!
-
-+ fixed endurance mode
-+ user can select arcade or endurance mode
-+ random colored new ball
-+ chance to proc extra ball
-+ sound effects
-+ music
-+ load blocks from level
-+ grace period between levels
-+ margins between blocks
-+ created an icon for the game
-+ ball angle changes depending on where it lands
-+ brick colors
-+ bricks take multiple times to break as indicated by opacity
-+ blocks break when hit by the ball
-+ smart collision detection; works fairly well, but not perfect (good enough?)
-+ cool menu effects
-+ ball bounces off of the walls, paddle, and blocks
-+ paddle follows mouse/touch
-
-In Progress:
+TODOS (that are probably never going to happen):
 + special ability procs
 + level designs
 + main menu and sub-menus
 + scoring system
 + more backgrounds
 + cooler graphics
-
-To do's:
 + load music and background from level
 + scores database
 + add score to gameover screen
